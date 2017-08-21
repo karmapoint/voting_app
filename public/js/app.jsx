@@ -1,19 +1,25 @@
 class ProductList extends React.Component {
-  constructor(props){
-    super(props);
 
-    this.state= {
-      products:[],
-    };
+  // using transform-class-properties allows us to set state outside of a
+  // constructor and use arrow functions for our functions that auto bind this.
+  
+  state = { products: [], };
 
-    this.handleProductUpVote = this.handleProductUpVote.bind(this);
-  }
+  // constructor(props){
+  //   super(props);
+  //
+  //   this.state= {
+  //     products:[],
+  //   };
+  //
+  //   this.handleProductUpVote = this.handleProductUpVote.bind(this);
+  // }
 
   componentDidMount(){
     this.setState({ products: Seed.products });
   }
 
-  handleProductUpVote(productId){
+  handleProductUpVote = (productId) => {
     const nextProducts = this.state.products.map((product) => {
       if (product.id === productId) {
 
@@ -61,13 +67,19 @@ class Product extends React.Component {
 
 //when definining custom methods on React Component classes,
 // we need to bind this in the constructor so it will work
-  constructor(props){
-    super(props);
-    this.handleUpVote = this.handleUpVote.bind(this);
-  }
-  handleUpVote(){
-    this.props.onVote(this.props.id);
-  }
+  // constructor(props){
+  //   super(props);
+  //   this.handleUpVote = this.handleUpVote.bind(this);
+  // }
+  // handleUpVote(){
+  //   this.props.onVote(this.props.id);
+  // }
+
+  //Using an experimental new feature with Babel, we can make our method into an
+  // arrow function and avoid having to manually bind it and use a constructor
+
+  handleUpVote = () => ( this.props.onVote(this.props.id));
+
   render() {
     return (
       <div className="item">
